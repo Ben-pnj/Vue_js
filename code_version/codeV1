@@ -1,0 +1,355 @@
+<script setup>
+// import { ref } from 'vue'
+
+// VARIABLES
+// const msg = ref('Salut, bienvenue sur ma page Vue.JS')
+// const count = ref(0)
+
+/*msg.value = "Bonjour"*/ /*--permet de changer le ref de mon message--*/
+
+
+
+//FUNCTION
+
+// const incrementCount = () => {
+// count.value++
+// }
+
+
+
+// const resetCount = () => {
+//  count.value = 0
+// }
+
+
+
+// const changeMsg = () => {
+//   msg.value = "Bravo it's Work"
+// } 
+
+</script>
+
+<!--<template>
+  
+  
+  <main>
+
+
+   <h1 @click="changeMsg">{{ msg }}</h1>
+   
+   <p>Attention, ne dépasse pas les 100 !⚠️</p>
+
+<h2 :class="count < 25 ? 'green' : count < 50 ? 'orange' : 'red'">
+  Nombre = {{ count }}
+</h2>
+
+   <button @click="incrementCount">Incrémente le compteur</button>
+<button
+  :style="count <= 0 ? { display: 'none' } : {}"
+  @click="resetCount"
+>
+  Réinitialise le compteur
+</button>
+
+  </main>  
+  
+
+  </template>
+
+<style scoped>
+
+h1{
+  color: rgb(170, 114, 226);
+
+}
+
+h1:hover{
+  cursor: pointer;
+}
+
+.green { 
+  color: green;
+}
+
+.orange { 
+  color: orange
+}
+
+.red {
+  color: red
+}
+
+
+
+
+</style>*/
+//-------------------------------------- V-Model (form)------------------------------------------//
+
+
+<script setup>
+import { ref } from 'vue'
+
+// VARIABLES
+const msg = ref('Salut, bienvenue sur le tuto Vue.JS')
+const inputMsg = ref('Saisir un texte')
+
+
+/*msg.value = "Bonjour"*/ /*--permet de changer le ref de mon message--*/
+
+
+
+//FUNCTION
+
+const submitForm = () => {
+  console.log(inputMsg.value)
+}
+
+
+
+</script>
+
+<template>
+  
+  
+  <main>
+
+
+   <h1 @click="changeMsg">{{ msg }}</h1>
+   <p>{{ inputMsg }}</p>
+   <input v-model="inputMsg" type="text" name="barre" />
+   <button @click="submitForm">Valider</button>
+   
+   
+  
+
+
+
+  </main>  
+  
+
+  </template>
+
+<style scoped>
+
+p {
+  font-size: 25px;
+  font-weight: bold;
+
+}
+
+
+
+
+
+  input {
+    width: 100%;
+    height: 60px;
+    border-width: 2px;
+    border-radius: 5px;
+    
+  }
+
+
+
+
+</style>
+
+//----------------------------------- CONDITIONS(v-if/v-else)-----------------------------------------//
+<script setup>
+import { ref } from 'vue'
+
+// VARIABLES
+const msg = ref('Salut, bienvenue sur le tuto Vue.JS')
+
+const oui = ref(true)
+
+
+
+
+
+
+
+//FUNCTION
+
+const change = () => {
+  oui.value = !oui.value
+}
+
+
+</script>
+
+<template>
+  
+  
+  <main id="main" :class="!oui ? 'non' : ''">
+
+
+   <h1 @click="changeMsg">{{ msg }}</h1>
+   <h2 v-if="oui">OUI</h2>
+   <h2 v-else>NON</h2>
+   
+   
+   <button @click="change">Choix</button>
+   
+   
+  
+
+
+
+  </main>  
+  
+
+  </template>
+
+<style scoped>
+
+#main {
+  background: rgb(241, 204, 241);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+}
+
+.non {
+  background-color: red!important;
+}
+
+
+
+</style>
+
+
+//------------------------------------- V-FOR / FILTER -----------------------------------------//
+<script setup>
+import { ref } from 'vue'
+
+
+
+let id =  0
+
+// VARIABLES
+const msg = ref('Salut, bienvenue sur le tuto Vue.JS')
+const newItem = ref('')
+const items = ref([
+  {id:id++, text: 'Item 1'},
+  {id:id++, text: 'Item 2'},
+  {id:id++, text: 'Item 3'}
+])
+
+const addItem = () => {
+  items.value.push({id:id++, text:newItem.value})
+  newItem.value = ''
+}
+
+
+
+const removeItem = (i) => {
+  items.value = items.value.filter((item) => item !== i)
+}
+
+
+
+
+
+
+
+//FUNCTION
+
+
+
+
+</script>
+
+<template>
+  
+  
+  <main>
+
+
+   <h1>{{ msg }}</h1>
+   
+    <ul>
+      <li v-for="item in items" :key="item.id">{{ item.text }}
+        <button @click="removeItem(item)">X</button>
+      </li>
+      
+    </ul>
+    <input type="text" v-model="newItem"/>
+    <button @click="addItem">Add item</button>
+  
+
+
+
+  </main>  
+  
+
+  </template>
+
+<style scoped>
+
+
+
+</style>
+ 
+//------------------------------------------ WATCH-------------------------------------------//
+<script setup>
+import { ref, watch } from 'vue'
+
+
+
+let id =  0
+
+// VARIABLES
+const msg = ref('Salut, bienvenue sur le tuto Vue.JS')
+const x = ref(0)
+const dbg = ref('')
+const locked = ref(false)
+
+watch(x, (newX) => {
+  dbg.value = "x = " + newX
+  if (newX > 8)
+{
+  locked.value = true
+}
+})
+
+
+
+
+
+
+
+//FUNCTION
+
+
+
+
+</script>
+
+<template>
+  
+  
+  <main id="main">
+
+
+   <h1>{{ msg }}</h1>
+   <p>{{ dbg }}</p>
+   <input :disabled="locked" type="number" v-model="x">
+   
+  
+
+
+
+  </main>  
+  
+
+  </template>
+
+<style scoped>
+
+
+
+</style>
